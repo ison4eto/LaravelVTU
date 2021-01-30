@@ -3,8 +3,9 @@
 @section('content')
     <div class="flex justify-center">
         <div class="w-4/12 bg-white p-6 rounded-lg">
+            <h1 class="font-bold text-2xl pb-6 text-center">Login</h1>
             @if(session('errorMessage'))
-                <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
+                <div class="pb-2 rounded-lg mb-6 text-red-500 text-left font-bold">
                     {{ session('errorMessage') }}
                 </div>
             @endif
