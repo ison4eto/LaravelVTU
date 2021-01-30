@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
 class LoginController extends Controller
 {
     public function index()
@@ -9,8 +12,20 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login()
+    public function login(Request $request)
     {
-        dd("loggedIn");
+        // validate
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        // sign in user
+        if(!auth()->attempt($request->only('email', 'password'))) {
+            return back()->with('errorMessage', 'Invalid login details');
+        }
+
+        // redirect
+        return redirect()->route('dashboard');
     }
 }
