@@ -13,7 +13,7 @@ class PostController extends Controller
 
     public function index()
     {
-        return view('posts.index');
+        return view('posts.create');
     }
 
     public function store(Request $request)
@@ -21,16 +21,22 @@ class PostController extends Controller
         $this->validate($request, [
            'title' => 'required|max:200',
             'authors' => 'required',
-            'category' => 'required'
+            'category' => 'required',
+            'file' => 'required|mimes:doc,ppt,txt,pdf|max:2048'
         ]);
 
+        $fileName = $request->file->getClientOriginalName();
+        $request->file->storeAs('uploaded', $fileName);
         $request->user()->posts()->create([
             'title' => $request->title,
             'authors' => $request->authors,
             'category' => $request->category,
-            'file' => $request->file
+            'file' => $fileName
         ]);
 
-        return back();
+         if($request->has('stayOnPage')) {
+            return back();
+         }
+        return redirect()->route('dashboard');
     }
 }

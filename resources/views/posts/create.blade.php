@@ -4,7 +4,7 @@
     <div class="flex justify-center">
         <div class="w-6/12 bg-white p-6 rounded-lg">
             <h1 class="font-bold text-3xl pb-6 text-center">Post</h1>
-            <form action="{{ route('posts') }}" method="post">
+            <form action="{{ route('posts') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4">
                     <label for="title" class="font-bold text-sm">Title</label>
@@ -57,6 +57,13 @@
                         {{ $message }}
                     </div>
                     @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="stayOnPage" class="font-bold text-sm">Create another post</label>
+                    <input type="checkbox"
+                           name="stayOnPage" id="stayOnPage"
+                           class="bg-gray-100 border-2 p-3 rounded-lg align-middle m-2"/>
                 </div>
 
                 <div>
