@@ -39,4 +39,5 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts');
-Route::post('/posts', [PostController::class, 'store']) ;
+Route::post('/posts', [PostController::class, 'store']);
+Route::post('/posts/download', [PostController::class, 'download'])->name('download');

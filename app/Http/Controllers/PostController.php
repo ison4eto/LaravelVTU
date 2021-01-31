@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -38,5 +39,12 @@ class PostController extends Controller
             return back();
          }
         return redirect()->route('dashboard');
+    }
+
+    public function download(Request $request)
+    {
+        $filename = $request->input('filename');
+
+        return Storage::download($filename);
     }
 }

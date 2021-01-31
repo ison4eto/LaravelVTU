@@ -22,7 +22,12 @@
                         <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ $post -> title }}</td>
                         <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ $post -> authors }}</td>
                         <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ ucwords($post -> category) }}</td>
-                        <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ $post -> file }}</td>
+                        <td class="border pl-2 pr-2 pb-0.5 pt-0.5">
+                            <form action="{{ route('download', ['filename' =>  $post->file])}}" method="post" class="inline">
+                                @csrf
+                                <button type="submit">{{ $post -> file }}</button>
+                            </form>
+                        </td>
                         <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ $post -> created_at->diffForHumans() }}</td>
                         <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ $post -> user -> name }}</td>
                     </tr>

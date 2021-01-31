@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'public'),
+    'default' => env('FILESYSTEM_DRIVER', 'uploaded'),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,6 +50,11 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
+        ],
+
+        'uploaded' => [
+            'driver' => 'local',
+            'root' => storage_path('app/uploaded'),
         ],
 
     ],
