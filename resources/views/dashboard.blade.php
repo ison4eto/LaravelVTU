@@ -12,14 +12,16 @@
                             <th class="w-1/4 border pl-2 pr-2 pt-0.5 pb-0.5">Authors</th>
                             <th class="w-1/8 border pl-2 pr-2 pt-0.5 pb-0.5">Category</th>
                             <th class="w-1/6 border pl-2 pr-2 pt-0.5 pb-0.5">Filename</th>
-                            <th class="w-1/6 border pl-2 pr-2 pt-0.5 pb-0.5">Added on</th>
+                            <th class="w-1/6 border pl-2 pr-2 pt-0.5 pb-0.5">Last Modified</th>
                             <th class="w-1/6 border pl-2 pr-2 pt-0.5 pb-0.5">Added by</th>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach($posts as $post)
                     <tr class="text-center">
-                        <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ $post -> title }}</td>
+                        <td class="border pl-2 pr-2 pb-0.5 pt-0.5">
+                            <a href="{{ route('posts.view', ['id' => $post->id]) }}">{{ $post -> title }}</a>
+                        </td>
                         <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ $post -> authors }}</td>
                         <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ ucwords($post -> category) }}</td>
                         <td class="border pl-2 pr-2 pb-0.5 pt-0.5">
@@ -28,7 +30,7 @@
                                 <button type="submit">{{ $post -> file }}</button>
                             </form>
                         </td>
-                        <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ $post -> created_at->diffForHumans() }}</td>
+                        <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ $post -> updated_at->diffForHumans() }}</td>
                         <td class="border pl-2 pr-2 pb-0.5 pt-0.5">{{ $post -> user -> name }}</td>
                     </tr>
                     @endforeach

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,11 +24,11 @@ class PostController extends Controller
            'title' => 'required|max:200',
             'authors' => 'required',
             'category' => 'required',
-            'file' => 'required|mimes:doc,ppt,txt,pdf|max:2048'
+            'file' => 'required|max:2048'
         ]);
 
         $fileName = $request->file->getClientOriginalName();
-        $request->file->storeAs('uploaded', $fileName);
+        $request->file->storeAs('', $fileName);
         $request->user()->posts()->create([
             'title' => $request->title,
             'authors' => $request->authors,
@@ -46,5 +47,75 @@ class PostController extends Controller
         $filename = $request->input('filename');
 
         return Storage::download($filename);
+    }
+
+    public function getPost($id)
+    {
+        $post = Post::find($id);
+        return view('posts.view', [
+            'post' => $post
+        ]);
+    }
+
+    public function editForm($id)
+    {
+        $post = Post::find($id);
+        return view('posts.edit', [
+            'post' => $post
+        ]);
+    }
+
+    public function edit($id, Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required|max:200',
+            'authors' => 'required',
+            'category' => 'required'
+        ]);
+
+        $post = Post::find($id);
+
+        if($request->file) {
+            $fileName = $request->file->getClientOriginalName();
+            $request->file->storeAs('', $fileName);
+
+            $oldFileName = $post->file;
+            Storage::delete($oldFileName);
+            $post->file = $fileName;
+        }
+
+        $post->title = $request->title;
+
+        $post->authors = $request->authors;
+
+        $post->category = $request->category;
+
+        // updates updated at
+        $post->touch();
+
+        $post->save();
+
+        return redirect()->route('posts.view', ['id' => $post->id]);
+    }
+
+    public function deleteForm($id)
+    {
+        $post = Post::find($id);
+        return view('posts.delete', [
+            'post' => $post
+        ]);
+    }
+
+    public function delete($id)
+    {
+        $post = Post::find($id);
+
+        if($post->file) {
+            Storage::delete($post->file);
+        }
+
+        $post->delete();
+
+        return redirect()->route('dashboard');
     }
 }
